@@ -22,8 +22,8 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:git@github.com:UW-Madison-DoIT/rssToJson.git</connection>
-		<developerConnection>scm:git:git@github.com:UW-Madison-DoIT/rssToJson.git</developerConnection>
+		<connection>scm:git:git@github.com:UW-Madison-DoIT/personalizedRedirection.git</connection>
+		<developerConnection>scm:git:git@github.com:UW-Madison-DoIT/personalizedRedirection.git</developerConnection>
 		<url>https://github.com/UW-Madison-DoIT/personalizedRedirection</url>
 		<tag>personalized-redirection-1.0.0</tag>
 	</scm>
