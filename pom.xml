@@ -10,6 +10,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.4.3.RELEASE</version>
 	</parent>
+	 <packaging>war</packaging>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -61,6 +62,12 @@
 					<path>/storage</path>
 				</configuration>
 			</plugin>
+			<plugin>
+                                <artifactId>maven-war-plugin</artifactId>
+                                <configuration>
+                                    <attachClasses>true</attachClasses>
+                                </configuration>
+                        </plugin>
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.4.2</version>
