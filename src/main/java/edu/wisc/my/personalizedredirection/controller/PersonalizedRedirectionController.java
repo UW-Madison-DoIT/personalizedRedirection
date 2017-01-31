@@ -65,6 +65,7 @@ public class PersonalizedRedirectionController {
 	@RequestMapping(value = "/{appName}", method = RequestMethod.GET)
 	public @ResponseBody void getUrl(HttpServletRequest request, HttpServletResponse response,
 			@PathVariable String appName) {
+		logger.trace("Into personalized-redirection controller with " + appName);
 		try {
 			UrlDataSource dataSource = sourceDataLocatorService.getUrlDataSource(appName);
 
@@ -77,6 +78,7 @@ public class PersonalizedRedirectionController {
 			try {
 				url = redirectionService.getUrl(request, dataSource);
 			} catch (PersonalizedRedirectionException e) {
+				logger.error("Personalized Redirection Error " + e.getMessage());
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			}
 

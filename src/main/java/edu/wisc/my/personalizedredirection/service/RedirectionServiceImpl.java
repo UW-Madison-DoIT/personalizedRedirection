@@ -23,6 +23,7 @@ public class RedirectionServiceImpl implements IRedirectionService {
 		String toFind = request.getHeader(attributeToSearchFor);
 
 		if (toFind == null || toFind.length() == 0) {
+			logger.error
 			throw new PersonalizedRedirectionException("Attribute " + attributeToSearchFor + " not found.");
 		}
 

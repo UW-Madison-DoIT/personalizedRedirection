@@ -27,6 +27,7 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 	@Override
 	public UrlDataSource getUrlDataSource(String appName) throws PersonalizedRedirectionException {
 		UrlDataSource retVal = new UrlDataSource();
+		Logger logger = LoggerFactory.getLogger(getClass());
 
 		try {
 			Resource resource = new ClassPathResource(DATA_LOCATION);
