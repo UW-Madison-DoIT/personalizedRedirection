@@ -2,18 +2,16 @@ package edu.wisc.my.personalizedredirection.dao;
 
 import org.springframework.stereotype.Repository;
 
-
 /*
  * This class contains metadata about the list of attribute/URL pairs we'll be searching. 
  */
 @Repository
-public class UrlDataSource{
+public class UrlDataSource {
 
-	private String appName;
+    private String appName;
     private String attributeName;
     private String dataSourceLocation;
     private String dataSourceType;
-
 
     public String getAppName() {
         return appName;
@@ -39,14 +37,13 @@ public class UrlDataSource{
         this.dataSourceLocation = dataSourceLocation;
     }
 
-	public String getDataSourceType() {
-		
-		return dataSourceType;
-	}
+    public String getDataSourceType() {
 
-	public void setDataSourceType(String dataSourceType) {
-		this.dataSourceType = dataSourceType.trim().toUpperCase();
-	}
+        return dataSourceType;
+    }
 
-    
+    public void setDataSourceType(String dataSourceType) {
+        this.dataSourceType = dataSourceType.trim().toUpperCase();
+    }
+
 }

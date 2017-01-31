@@ -22,93 +22,100 @@ import edu.wisc.my.personalizedredirection.service.IRedirectionService;
 import edu.wisc.my.personalizedredirection.service.ISourceDataLocatorService;
 import edu.wisc.my.personalizedredirection.service.RedirectionServiceImpl;
 
-
 @RestController
 @RequestMapping("/personalizedRedirect")
 public class PersonalizedRedirectionController {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private ISourceDataLocatorService sourceDataLocatorService;
+    @Autowired
+    private ISourceDataLocatorService sourceDataLocatorService;
 
-	@Autowired
-	private IRedirectionService redirectionService;
+    @Autowired
+    private IRedirectionService redirectionService;
 
-	/**
-	 * Status page
-	 * 
-	 * @param response
-	 */
-	@RequestMapping("/")
-	public @ResponseBody void index(HttpServletResponse response) {
-		try {
-			JSONObject responseObj = new JSONObject();
-			responseObj.put("status", "up");
-			response.getWriter().write(responseObj.toString());
-			response.setContentType("application/json");
-			response.setStatus(HttpServletResponse.SC_OK);
-		} catch (IOException e) {
-			logger.error("Issues happened while trying to write Status", e);
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
+    /**
+     * Status page
+     * 
+     * @param response
+     */
+    @RequestMapping("/")
+    public @ResponseBody void index(HttpServletResponse response) {
+        try {
+            JSONObject responseObj = new JSONObject();
+            responseObj.put("status", "up");
+            response.getWriter().write(responseObj.toString());
+            response.setContentType("application/json");
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (IOException e) {
+            logger.error("Issues happened while trying to write Status", e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
 
-	/**
-	 * This method will redirect you to a custom URL based on an attribute in
-	 * your shib header.
-	 * 
-	 * @param request
-	 * @param response
-	 * @param appName
-	 */
-	@RequestMapping(value = "/{appName}", method = RequestMethod.GET)
-	public @ResponseBody void getUrl(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable String appName) {
-		logger.trace("Into personalized-redirection controller with " + appName);
-		try {
-			UrlDataSource dataSource = sourceDataLocatorService.getUrlDataSource(appName);
+    /**
+     * This method will redirect you to a custom URL based on an attribute in
+     * your shib header.
+     * 
+     * @param request
+     * @param response
+     * @param appName
+     */
+    @RequestMapping(value = "/{appName}", method = RequestMethod.GET)
+    public @ResponseBody void getUrl(HttpServletRequest request,
+            HttpServletResponse response, @PathVariable String appName) {
+        logger.trace(
+                "Into personalized-redirection controller with " + appName);
+        try {
+            UrlDataSource dataSource = sourceDataLocatorService
+                    .getUrlDataSource(appName);
 
-			if (dataSource == null) {
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			}
+            if (dataSource == null) {
+                response.setStatus(
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
 
-			String url = "";
+            String url = "";
 
-			try {
-				url = redirectionService.getUrl(request, dataSource);
-			} catch (PersonalizedRedirectionException e) {
-				logger.error("Personalized Redirection Error " + e.getMessage());
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			}
+            try {
+                url = redirectionService.getUrl(request, dataSource);
+            } catch (PersonalizedRedirectionException e) {
+                logger.error(
+                        "Personalized Redirection Error " + e.getMessage());
+                response.setStatus(
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
 
-			if(url == null || url.length()!=0) {
-				response.sendRedirect(url);
-			}else{
-				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			}
+            if (url == null || url.length() != 0) {
+                response.sendRedirect(url);
+            } else {
+                response.setStatus(
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
 
-		} catch (Exception e) {
-			logger.error("Issues happened while trying to generate custom link", e);
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
+        } catch (Exception e) {
+            logger.error("Issues happened while trying to generate custom link",
+                    e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
 
-	}
+    }
 
-	public ISourceDataLocatorService getSourceDataLocatorService() {
-		return sourceDataLocatorService;
-	}
+    public ISourceDataLocatorService getSourceDataLocatorService() {
+        return sourceDataLocatorService;
+    }
 
-	public void setSourceDataLocatorService(ISourceDataLocatorService sourceDataLocatorService) {
-		this.sourceDataLocatorService = sourceDataLocatorService;
-	}
+    public void setSourceDataLocatorService(
+            ISourceDataLocatorService sourceDataLocatorService) {
+        this.sourceDataLocatorService = sourceDataLocatorService;
+    }
 
-	public IRedirectionService getRedirectionService() {
-		return redirectionService;
-	}
+    public IRedirectionService getRedirectionService() {
+        return redirectionService;
+    }
 
-	public void setRedirectionService(IRedirectionService redirectionService) {
-		this.redirectionService = redirectionService;
-	}
+    public void setRedirectionService(IRedirectionService redirectionService) {
+        this.redirectionService = redirectionService;
+    }
 
 }

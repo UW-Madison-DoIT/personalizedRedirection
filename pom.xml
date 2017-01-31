@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>edu.wisc.my.apps</groupId>
-	<artifactId>personalized-redirection</artifactId>
-	<version>1.0.4-SNAPSHOT</version>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.3.RELEASE</version>
-	</parent>
-	 <packaging>war</packaging>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
+    <groupId>edu.wisc.my.apps</groupId>
+    <artifactId>personalized-redirection</artifactId>
+    <version>1.0.4-SNAPSHOT</version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.3.RELEASE</version>
+    </parent>
+    <packaging>war</packaging>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
-	<scm>
-		<connection>scm:git:git@github.com:UW-Madison-DoIT/personalizedRedirection.git</connection>
-		<developerConnection>scm:git:git@github.com:UW-Madison-DoIT/personalizedRedirection.git</developerConnection>
-		<url>https://github.com/UW-Madison-DoIT/personalizedRedirection</url>
-		<tag>HEAD</tag>
-	</scm>
-
+    <scm>
+        <connection>scm:git:git@github.com:UW-Madison-DoIT/personalizedRedirection.git</connection>
+        <developerConnection>scm:git:git@github.com:UW-Madison-DoIT/personalizedRedirection.git</developerConnection>
+        <url>https://github.com/UW-Madison-DoIT/personalizedRedirection</url>
+        <tag>HEAD</tag>
+    </scm>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
