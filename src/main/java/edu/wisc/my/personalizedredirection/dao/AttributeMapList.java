@@ -8,15 +8,15 @@ import java.util.HashMap;
  */
 public class AttributeMapList {
 
-	private HashMap<String, String> mappedAttributes = new HashMap<String, String>();
+    private HashMap<String, String> mappedAttributes = new HashMap<String, String>();
 
-	public void addAttributeMap(AttributeMap am) {
-		mappedAttributes.put(am.getAttribute(), am.getUrl());
-	}
+    public void addAttributeMap(AttributeMap am) {
+        mappedAttributes.put(am.getAttribute(), am.getUrl());
+    }
 
-	public String find(String key) {
-		String retVal = mappedAttributes.get(key);
-		return retVal;
-	}
+    public String find(String key) {
+        String retVal = mappedAttributes.get(key);
+        return retVal;
+    }
 
 }
