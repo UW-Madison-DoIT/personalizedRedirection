@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.wisc.my.personalizedredirection.dao.AttributeMapList;
 import edu.wisc.my.personalizedredirection.dao.UrlDataSource;
@@ -15,6 +17,7 @@ import edu.wisc.my.personalizedredirection.service.parser.RedirectUrlCSVParser;
 
 @Service
 public class RedirectionServiceImpl implements IRedirectionService {
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public String getUrl(HttpServletRequest request, UrlDataSource dataSource) throws PersonalizedRedirectionException {
 
@@ -23,7 +26,7 @@ public class RedirectionServiceImpl implements IRedirectionService {
 		String toFind = request.getHeader(attributeToSearchFor);
 
 		if (toFind == null || toFind.length() == 0) {
-			logger.error
+			logger.error("Attribute " + attributeToSearchFor + " not found");
 			throw new PersonalizedRedirectionException("Attribute " + attributeToSearchFor + " not found.");
 		}
 
