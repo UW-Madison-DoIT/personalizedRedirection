@@ -14,43 +14,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import edu.wisc.my.personalizedredirection.dao.UrlDataSource;
 import edu.wisc.my.personalizedredirection.exception.PersonalizedRedirectionException;
 import edu.wisc.my.personalizedredirection.service.IRedirectionService;
 import edu.wisc.my.personalizedredirection.service.ISourceDataLocatorService;
-import edu.wisc.my.personalizedredirection.service.RedirectionServiceImpl;
 
 @RestController
-@RequestMapping("/personalizedRedirect")
 public class PersonalizedRedirectionController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    
     private ISourceDataLocatorService sourceDataLocatorService;
-
-    @Autowired
     private IRedirectionService redirectionService;
 
-    /**
-     * Status page
-     * 
-     * @param response
-     */
-    @RequestMapping("/")
-    public @ResponseBody void index(HttpServletResponse response) {
-        try {
-            JSONObject responseObj = new JSONObject();
-            responseObj.put("status", "up");
-            response.getWriter().write(responseObj.toString());
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_OK);
-        } catch (IOException e) {
-            logger.error("Issues happened while trying to write Status", e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+    
+    @Autowired
+    public void setSourceDataLocatorService(
+            ISourceDataLocatorService sourceDataLocatorService) {
+        this.sourceDataLocatorService = sourceDataLocatorService;
+    }
+    
+    @Autowired
+    public void setRedirectionService(IRedirectionService redirectionService) {
+        this.redirectionService = redirectionService;
     }
 
     /**
@@ -100,22 +88,24 @@ public class PersonalizedRedirectionController {
         }
 
     }
-
-    public ISourceDataLocatorService getSourceDataLocatorService() {
-        return sourceDataLocatorService;
-    }
-
-    public void setSourceDataLocatorService(
-            ISourceDataLocatorService sourceDataLocatorService) {
-        this.sourceDataLocatorService = sourceDataLocatorService;
-    }
-
-    public IRedirectionService getRedirectionService() {
-        return redirectionService;
-    }
-
-    public void setRedirectionService(IRedirectionService redirectionService) {
-        this.redirectionService = redirectionService;
+    
+    /**
+     * Status page
+     * 
+     * @param response
+     */
+    @RequestMapping("/")
+    public @ResponseBody void index(HttpServletResponse response) {
+        try {
+            JSONObject responseObj = new JSONObject();
+            responseObj.put("status", "up");
+            response.getWriter().write(responseObj.toString());
+            response.setContentType("application/json");
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (IOException e) {
+            logger.error("Issues happened while trying to write Status", e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
