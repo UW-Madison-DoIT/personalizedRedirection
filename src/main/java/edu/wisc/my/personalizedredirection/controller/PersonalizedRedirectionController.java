@@ -70,22 +70,20 @@ public class PersonalizedRedirectionController {
             } catch (RuntimeException e) {
                 logger.error(
                         "Personalized Redirection Error " + e);
-                response.setStatus(
-                        HttpServletResponse.SC_NOT_FOUND);
+                response.sendRedirect("/404");
             }
 
             if (url == null || url.length() != 0) {
                 response.sendRedirect(url);
             } else {
                 logger.error("No url found for app " + appName);
-                response.setStatus(
-                        HttpServletResponse.SC_NOT_FOUND);
+                response.sendRedirect("/404");
             }
 
         } catch (Exception e) {
             logger.error("Issues happened while trying to generate custom link",
                     e);
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.sendRedirect("/404");
         }
 
     }
