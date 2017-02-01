@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.wisc.my.personalizedredirection.dao.UrlDataSource;
 import edu.wisc.my.personalizedredirection.dao.UrlDataSourceList;
-import edu.wisc.my.personalizedredirection.exception.PersonalizedRedirectionException;
+
 
 @Service
 public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
@@ -25,7 +25,7 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 	public final String DATA_LOCATION = "dataSources.json";
 
 	@Override
-	public UrlDataSource getUrlDataSource(String appName) throws PersonalizedRedirectionException {
+	public UrlDataSource getUrlDataSource(String appName) throws RuntimeException {
 		UrlDataSource retVal = new UrlDataSource();
 		Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -34,7 +34,6 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 			if (resource.exists()) {
 				
 				// resource should be a valid json file containing an array of data source objects.
-				
 				BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
 				StringBuilder stringBuilder = new StringBuilder();
 				String line;
@@ -53,8 +52,15 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 			}
 
 		} catch (Exception e) {
-			throw new PersonalizedRedirectionException("Error fetching application metadata.");
+		    logger.error(e.getMessage());
+			throw new RuntimeException("Error fetching application metadata. ");
 		}
+
+		if(retVal==null){
+		    throw new RuntimeException("No metadata found for " + appName);
+        }else{
+            logger.trace(retVal.getAppName() + " searching for " + retVal.getAttributeName() + " at " + retVal.getDataSourceLocation() );
+        }
 
 		return retVal;
 	}

@@ -4,18 +4,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import org.springframework.core.io.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.wisc.my.personalizedredirection.dao.AttributeMap;
 import edu.wisc.my.personalizedredirection.dao.AttributeMapList;
-import edu.wisc.my.personalizedredirection.exception.PersonalizedRedirectionException;
+
 
 /**
  * Implementation of IRedirectURLSourceDataParser which will parse a two-column
  * csv file.
  */
 public class RedirectUrlCSVParser implements IRedirectURLSourceDataParser {
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AttributeMapList parseResource(Resource resource) throws PersonalizedRedirectionException {
+	public AttributeMapList parseResource(Resource resource) throws RuntimeException {
 		AttributeMapList mapList = new AttributeMapList();
 		try {
 			// The resource should be a two-column csv file.
@@ -33,7 +36,8 @@ public class RedirectUrlCSVParser implements IRedirectURLSourceDataParser {
 			br.close();
 
 		} catch (Exception e) {
-			throw new PersonalizedRedirectionException(e.getMessage());
+			logger.error(e.getMessage());
+			throw new RuntimeException(e.getMessage());
 		}
 
 		return mapList;
