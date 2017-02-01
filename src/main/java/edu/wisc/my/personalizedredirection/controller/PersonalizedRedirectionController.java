@@ -50,7 +50,9 @@ public class PersonalizedRedirectionController {
      */
     @RequestMapping(value = "/{appName}", method = RequestMethod.GET)
     public @ResponseBody void getUrl(HttpServletRequest request,
-            HttpServletResponse response, @PathVariable String appName) {
+            HttpServletResponse response, @PathVariable String appName) throws IOException {
+
+        String errorURL = "/404.html";
 
         logger.trace(
                 "Calling PersonalizedRedirectionController " + appName);
@@ -65,25 +67,24 @@ public class PersonalizedRedirectionController {
 
             String url = "";
 
-            try {
-                url = redirectionService.getUrl(request, dataSource);
-            } catch (RuntimeException e) {
-                logger.error(
-                        "Personalized Redirection Error " + e);
-                response.sendRedirect("/404");
-            }
+            url = redirectionService.getUrl(request, dataSource);
 
             if (url == null || url.length() != 0) {
                 response.sendRedirect(url);
             } else {
                 logger.error("No url found for app " + appName);
-                response.sendRedirect("/404");
+                response.sendRedirect(errorURL);
             }
 
-        } catch (Exception e) {
+        }catch(IOException ioe){
+            logger.error("IO issues happened while trying to generate custom link",
+                    ioe);
+            response.sendRedirect(errorURL);
+        }
+        catch (Exception e) {
             logger.error("Issues happened while trying to generate custom link",
                     e);
-            response.sendRedirect("/404");
+            response.sendRedirect(errorURL);
         }
 
     }
