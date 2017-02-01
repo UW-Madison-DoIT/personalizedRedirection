@@ -53,7 +53,7 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 
 		} catch (Exception e) {
 		    logger.error(e.getMessage());
-			throw new RuntimeException("Error fetching application metadata. ");
+			throw new RuntimeException(e);
 		}
 
 		if(retVal==null){

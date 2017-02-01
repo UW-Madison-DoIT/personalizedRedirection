@@ -38,8 +38,8 @@ public class RedirectionServiceImpl implements IRedirectionService {
 			IRedirectURLSourceDataParser parser = getParser(dataSource);
 			mapList = parser.parseResource(resource);
 		} else {
-		    logger.error("Invalid data location = " + dataSource.getDataSourceLocation());
-			throw new RuntimeException("Location " + locale + " not found.");
+		    logger.error("Invalid data location - " + dataSource.getDataSourceLocation() + " not found.");
+			throw new RuntimeException("Location " + dataSource.getDataSourceLocation() + " not found.");
 		}
 
 		String retVal = mapList.find(toFind);

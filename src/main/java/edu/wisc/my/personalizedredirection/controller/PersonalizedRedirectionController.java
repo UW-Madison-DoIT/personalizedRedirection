@@ -69,9 +69,9 @@ public class PersonalizedRedirectionController {
                 url = redirectionService.getUrl(request, dataSource);
             } catch (RuntimeException e) {
                 logger.error(
-                        "Personalized Redirection Error " + e.getMessage());
+                        "Personalized Redirection Error " + e);
                 response.setStatus(
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        HttpServletResponse.SC_NOT_FOUND);
             }
 
             if (url == null || url.length() != 0) {
