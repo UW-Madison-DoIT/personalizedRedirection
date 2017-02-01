@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.wisc.my.personalizedredirection.dao.UrlDataSource;
-import edu.wisc.my.personalizedredirection.exception.PersonalizedRedirectionException;
 import edu.wisc.my.personalizedredirection.service.IRedirectionService;
 import edu.wisc.my.personalizedredirection.service.ISourceDataLocatorService;
 
@@ -52,8 +51,9 @@ public class PersonalizedRedirectionController {
     @RequestMapping(value = "/{appName}", method = RequestMethod.GET)
     public @ResponseBody void getUrl(HttpServletRequest request,
             HttpServletResponse response, @PathVariable String appName) {
+
         logger.trace(
-                "Into personalized-redirection controller with " + appName);
+                "Calling PersonalizedRedirectionController " + appName);
         try {
             UrlDataSource dataSource = sourceDataLocatorService
                     .getUrlDataSource(appName);
@@ -67,24 +67,25 @@ public class PersonalizedRedirectionController {
 
             try {
                 url = redirectionService.getUrl(request, dataSource);
-            } catch (PersonalizedRedirectionException e) {
+            } catch (RuntimeException e) {
                 logger.error(
-                        "Personalized Redirection Error " + e.getMessage());
+                        "Personalized Redirection Error " + e);
                 response.setStatus(
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        HttpServletResponse.SC_NOT_FOUND);
             }
 
             if (url == null || url.length() != 0) {
                 response.sendRedirect(url);
             } else {
+                logger.error("No url found for app " + appName);
                 response.setStatus(
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        HttpServletResponse.SC_NOT_FOUND);
             }
 
         } catch (Exception e) {
             logger.error("Issues happened while trying to generate custom link",
                     e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
 
     }
