@@ -61,8 +61,8 @@ public class PersonalizedRedirectionController {
                     .getUrlDataSource(appName);
 
             if (dataSource == null) {
-                response.setStatus(
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                logger.error("No data source retrieved for " + appName);
+                response.sendRedirect(errorURL);
             }
 
             String url = "";

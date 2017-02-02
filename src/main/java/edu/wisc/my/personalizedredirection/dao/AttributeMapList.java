@@ -1,5 +1,7 @@
 package edu.wisc.my.personalizedredirection.dao;
 
+
+
 import java.util.HashMap;
 
 /*
@@ -16,6 +18,9 @@ public class AttributeMapList {
 
     public String find(String key) {
         String retVal = mappedAttributes.get(key);
+        if(retVal == null || retVal.length()==0){
+            return null;
+        }
         return retVal;
     }
 

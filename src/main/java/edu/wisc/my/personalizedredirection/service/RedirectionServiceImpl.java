@@ -2,6 +2,7 @@ package edu.wisc.my.personalizedredirection.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.wisc.my.personalizedredirection.service.parser.ErrorParser;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -23,26 +24,29 @@ public class RedirectionServiceImpl implements IRedirectionService {
 		// Find search key in the header
 		String attributeToSearchFor = dataSource.getAttributeName();
 		String toFind = request.getHeader(attributeToSearchFor);
+		String retVal = null;
 
 		if (toFind == null || toFind.length() == 0) {
-			logger.error("Attribute " + attributeToSearchFor + " not found");
-			throw new RuntimeException("Attribute " + attributeToSearchFor + " not found.");
+			logger.error("Attribute " + attributeToSearchFor + " not found in header.");
+			return null;
+		}else{
+			logger.trace("Header attribute = " + toFind);
 		}
 
 		// Grab the resource which contains your key/url pairs.
-		String locale = dataSource.getDataSourceLocation();
-		Resource resource = new ClassPathResource(locale);
+		String dataSourceLocation = dataSource.getDataSourceLocation();
+		Resource resource = new ClassPathResource(dataSourceLocation);
 		AttributeMapList mapList;
 
 		if (resource.exists()) {
 			IRedirectURLSourceDataParser parser = getParser(dataSource);
 			mapList = parser.parseResource(resource);
+			retVal = mapList.find(toFind);
 		} else {
-		    logger.error("Invalid data location - " + dataSource.getDataSourceLocation() + " not found.");
-			throw new RuntimeException("Location " + dataSource.getDataSourceLocation() + " not found.");
+		    logger.error("Invalid data location - " + dataSourceLocation + " not found.");
 		}
 
-		String retVal = mapList.find(toFind);
+
 		return retVal;
 	}
 
@@ -64,8 +68,8 @@ public class RedirectionServiceImpl implements IRedirectionService {
 		}
 
 		if (parser == null) {
-		    logger.error("Attempted to instantiate a DataSource with type " + dataSource.getDataSourceType());
-			throw new RuntimeException("Invalid data source type");
+			parser = new ErrorParser();
+		    logger.error("Unsuccessfully attempted to instantiate a DataSource with type " + dataSource.getDataSourceType());
 		}
 		
 		return parser;
