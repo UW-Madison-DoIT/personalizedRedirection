@@ -24,11 +24,9 @@ public class PersonalizedRedirectionController {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-    
     private ISourceDataLocatorService sourceDataLocatorService;
     private IRedirectionService redirectionService;
 
-    
     @Autowired
     public void setSourceDataLocatorService(
             ISourceDataLocatorService sourceDataLocatorService) {
@@ -42,7 +40,7 @@ public class PersonalizedRedirectionController {
 
     /**
      * This method will redirect you to a custom URL based on an attribute in
-     * your shib header.
+     * your shib header. The expected result is a redirect. 
      * 
      * @param request
      * @param response
@@ -69,11 +67,11 @@ public class PersonalizedRedirectionController {
 
             url = redirectionService.getUrl(request, dataSource);
 
-            if (url == null || url.length() != 0) {
-                response.sendRedirect(url);
-            } else {
-                logger.error("No url found for app " + appName);
+            if (url == null || url.length() == 0) {
+            	logger.error("No url found for app " + appName);
                 response.sendRedirect(errorURL);
+            } else {
+            	response.sendRedirect(url);
             }
 
         }catch(IOException ioe){
@@ -86,7 +84,6 @@ public class PersonalizedRedirectionController {
                     e);
             response.sendRedirect(errorURL);
         }
-
     }
     
     /**

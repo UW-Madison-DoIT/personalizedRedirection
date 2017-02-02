@@ -8,7 +8,7 @@ import java.util.HashMap;
  * Wrapper class for edu.wisc.my.personalizedredirection.dao.AttributeMap.
  * Contains helper methods for map management. 
  */
-public class AttributeMapList {
+public class AttributeMapWrapper {
 
     private HashMap<String, String> mappedAttributes = new HashMap<String, String>();
 

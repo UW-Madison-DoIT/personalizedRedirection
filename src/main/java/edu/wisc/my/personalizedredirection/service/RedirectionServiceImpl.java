@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.wisc.my.personalizedredirection.dao.AttributeMapList;
+import edu.wisc.my.personalizedredirection.dao.AttributeMapWrapper;
 import edu.wisc.my.personalizedredirection.dao.UrlDataSource;
 import edu.wisc.my.personalizedredirection.service.parser.IRedirectURLSourceDataParser;
 import edu.wisc.my.personalizedredirection.service.parser.RedirectUrlCSVParser;
@@ -36,7 +36,7 @@ public class RedirectionServiceImpl implements IRedirectionService {
 		// Grab the resource which contains your key/url pairs.
 		String dataSourceLocation = dataSource.getDataSourceLocation();
 		Resource resource = new ClassPathResource(dataSourceLocation);
-		AttributeMapList mapList;
+		AttributeMapWrapper mapList;
 
 		if (resource.exists()) {
 			IRedirectURLSourceDataParser parser = getParser(dataSource);
