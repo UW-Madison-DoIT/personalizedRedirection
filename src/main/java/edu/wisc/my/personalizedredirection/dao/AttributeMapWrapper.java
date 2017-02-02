@@ -1,12 +1,14 @@
 package edu.wisc.my.personalizedredirection.dao;
 
+
+
 import java.util.HashMap;
 
 /*
  * Wrapper class for edu.wisc.my.personalizedredirection.dao.AttributeMap.
  * Contains helper methods for map management. 
  */
-public class AttributeMapList {
+public class AttributeMapWrapper {
 
     private HashMap<String, String> mappedAttributes = new HashMap<String, String>();
 
@@ -16,6 +18,9 @@ public class AttributeMapList {
 
     public String find(String key) {
         String retVal = mappedAttributes.get(key);
+        if(retVal == null || retVal.length()==0){
+            return null;
+        }
         return retVal;
     }
 

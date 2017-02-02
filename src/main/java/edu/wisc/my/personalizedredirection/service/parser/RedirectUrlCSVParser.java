@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import edu.wisc.my.personalizedredirection.dao.AttributeMap;
-import edu.wisc.my.personalizedredirection.dao.AttributeMapList;
+import edu.wisc.my.personalizedredirection.dao.AttributeMapWrapper;
 
 
 /**
@@ -18,8 +18,8 @@ import edu.wisc.my.personalizedredirection.dao.AttributeMapList;
 public class RedirectUrlCSVParser implements IRedirectURLSourceDataParser {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AttributeMapList parseResource(Resource resource) throws RuntimeException {
-		AttributeMapList mapList = new AttributeMapList();
+	public AttributeMapWrapper parseResource(Resource resource) throws RuntimeException {
+		AttributeMapWrapper mapList = new AttributeMapWrapper();
 		try {
 			// The resource should be a two-column csv file.
 			// We have already verified its existence.

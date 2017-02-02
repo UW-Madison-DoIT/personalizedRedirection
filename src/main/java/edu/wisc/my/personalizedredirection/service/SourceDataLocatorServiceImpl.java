@@ -25,7 +25,7 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 	public final String DATA_LOCATION = "dataSources.json";
 
 	@Override
-	public UrlDataSource getUrlDataSource(String appName) throws RuntimeException {
+	public UrlDataSource getUrlDataSource(String appName){
 		UrlDataSource retVal = new UrlDataSource();
 		Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -44,7 +44,6 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 				String json = stringBuilder.toString();
 
 				if (isValidJSON(json)) {
-					retVal.setAttributeName("Resource = json");
 					ObjectMapper objectMapper = new ObjectMapper();
 					UrlDataSourceList sourceList = objectMapper.readValue(json, UrlDataSourceList.class);
 					retVal = sourceList.findByAppName(appName);
@@ -52,12 +51,13 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 			}
 
 		} catch (Exception e) {
-		    logger.error(e.getMessage());
-			throw new RuntimeException(e);
+		    logger.error("Exception retrieving UrlDataSource:: ", e);
+			return new UrlDataSource();
 		}
 
 		if(retVal==null){
-		    throw new RuntimeException("No metadata found for " + appName);
+		    logger.error("No metadata found for " + appName);
+		    return new UrlDataSource();
         }else{
             logger.trace(retVal.getAppName() + " searching for " + retVal.getAttributeName() + " at " + retVal.getDataSourceLocation() );
         }
