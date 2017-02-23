@@ -60,6 +60,7 @@ public class PersonalizedRedirectionController {
 
             if (dataSource == null) {
                 logger.error("No data source retrieved for " + appName);
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 response.sendRedirect(errorURL);
             }
 
@@ -69,6 +70,7 @@ public class PersonalizedRedirectionController {
 
             if (url == null || url.length() == 0) {
             	logger.error("No url found for app " + appName);
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 response.sendRedirect(errorURL);
             } else {
             	response.sendRedirect(url);
@@ -77,11 +79,13 @@ public class PersonalizedRedirectionController {
         }catch(IOException ioe){
             logger.error("IO issues happened while trying to generate custom link",
                     ioe);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.sendRedirect(errorURL);
         }
         catch (Exception e) {
             logger.error("Issues happened while trying to generate custom link",
                     e);
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.sendRedirect(errorURL);
         }
     }
