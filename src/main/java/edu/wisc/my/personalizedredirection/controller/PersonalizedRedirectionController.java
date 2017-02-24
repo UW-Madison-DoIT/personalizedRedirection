@@ -50,6 +50,7 @@ public class PersonalizedRedirectionController {
     public @ResponseBody void getUrl(HttpServletRequest request,
             HttpServletResponse response, @PathVariable String appName) {
 
+        boolean hasError = false;
         String errorURL = "/404.html";
 
         logger.trace(
@@ -61,6 +62,7 @@ public class PersonalizedRedirectionController {
             if (dataSource == null) {
                 logger.error("No data source retrieved for " + appName);
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                hasError = true;
             }
 
             String url = "";
@@ -70,6 +72,7 @@ public class PersonalizedRedirectionController {
             if (url == null || url.length() == 0) {
             	logger.error("No url found for app " + appName);
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                hasError = true;
             } else {
                 response.setStatus(HttpServletResponse.SC_OK);
             	response.sendRedirect(url);
@@ -79,7 +82,13 @@ public class PersonalizedRedirectionController {
             logger.error("Issues happened while trying to generate custom link",
                     e);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            hasError = true;
          }
+
+         if(hasError){
+            response.sendRedirect(errorURL);
+         }
+
     }
     
     /**
