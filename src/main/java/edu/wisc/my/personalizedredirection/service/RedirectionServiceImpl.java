@@ -21,36 +21,38 @@ public class RedirectionServiceImpl implements IRedirectionService {
 
 	public String getUrl(HttpServletRequest request, UrlDataSource dataSource) throws RuntimeException {
 
-		// Find search key in the header
-		String attributeToSearchFor = dataSource.getAttributeName();
-		String toFind = request.getHeader(attributeToSearchFor);
-		String retVal = null;
+            // Find search key in the header
+           String attributeToSearchFor = dataSource.getAttributeName();
+           String toFind = request.getHeader(attributeToSearchFor);
+           String retVal = null;
 
-		if (toFind == null || toFind.length() == 0) {
-			logger.error("Attribute " + attributeToSearchFor + " not found in header.");
-			return null;
-		}else{
-			logger.trace("Header attribute = " + toFind);
-		}
-
-		// Grab the resource which contains your key/url pairs.
-		String dataSourceLocation = dataSource.getDataSourceLocation();
-		Resource resource = new ClassPathResource(dataSourceLocation);
-		AttributeMapWrapper mapList;
-
-		if (resource.exists()) {
-			IRedirectURLSourceDataParser parser = getParser(dataSource);
-			mapList = parser.parseResource(resource);
-			retVal = mapList.find(toFind);
-		} else {
-		    logger.error("Invalid data location - " + dataSourceLocation + " not found.");
-		}
-
-
-		return retVal;
+           if (toFind == null || toFind.length() == 0) {
+               logger.error("Attribute " + attributeToSearchFor + " not found in header.");
+               return null;
+           }else{
+               logger.trace("Header attribute = " + toFind);
+           }
+           
+           AttributeMapWrapper mapList = getMapList(dataSource);
+           retVal = mapList.find(toFind);
+		
+           return retVal;
 	}
 
-	
+        protected AttributeMapWrapper getMapList(UrlDataSource dataSource){
+            String dataSourceLocation = dataSource.getDataSourceLocation();
+            Resource resource = new ClassPathResource(dataSourceLocation);
+            AttributeMapWrapper mapList;
+
+            if (resource.exists()) {
+                IRedirectURLSourceDataParser parser = getParser(dataSource);
+                mapList = parser.parseResource(resource);
+            }else{
+                return null;
+            }
+            
+            return mapList;	
+	}
 	
 	/*
 	 * This service is currently set up to handle a two-column CSV file. 

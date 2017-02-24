@@ -1,5 +1,4 @@
 {"dataSources":[
 {"appName":"demo", "attributeName":"uid", "dataSourceLocation":"sampleIds.csv", "dataSourceType":"CSV"},
-{"appName":"survey", "attributeName":"sisEmplID", "dataSourceLocation":"test_survey_link_file.csv", "dataSourceType":"CSV"},
-{"appName":"whitefish", "attributeName":"whitefish", "dataSourceLocation":"nonexistent.json", "dataSourceType":"JSON"}
+{"appName":"survey", "attributeName":"sisEmplID", "dataSourceLocation":"test_survey_link_file.csv", "dataSourceType":"CSV"}
 ]}

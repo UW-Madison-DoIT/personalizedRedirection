@@ -23,12 +23,10 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 	// hardcoded path to map containing the map of application name to the
 	// location of that application's redirect data
 	public final String DATA_LOCATION = "dataSources.json";
-
-	@Override
-	public UrlDataSource getUrlDataSource(String appName){
-		UrlDataSource retVal = new UrlDataSource();
-		Logger logger = LoggerFactory.getLogger(getClass());
-
+	
+	
+	protected UrlDataSourceList getUrlDataSourceList(){
+		UrlDataSourceList sourceList = null;
 		try {
 			Resource resource = new ClassPathResource(DATA_LOCATION);
 			if (resource.exists()) {
@@ -45,14 +43,25 @@ public class SourceDataLocatorServiceImpl implements ISourceDataLocatorService {
 
 				if (isValidJSON(json)) {
 					ObjectMapper objectMapper = new ObjectMapper();
-					UrlDataSourceList sourceList = objectMapper.readValue(json, UrlDataSourceList.class);
-					retVal = sourceList.findByAppName(appName);
+					sourceList = objectMapper.readValue(json, UrlDataSourceList.class);
 				}
 			}
 
 		} catch (Exception e) {
 		    logger.error("Exception retrieving UrlDataSource:: ", e);
-			return new UrlDataSource();
+		}
+	
+		return sourceList;
+	}
+
+	@Override
+	public UrlDataSource getUrlDataSource(String appName){
+		UrlDataSource retVal = new UrlDataSource();
+		Logger logger = LoggerFactory.getLogger(getClass());
+		UrlDataSourceList dataSourceList = getUrlDataSourceList();
+		
+		if(dataSourceList != null){
+		 retVal = dataSourceList.findByAppName(appName);
 		}
 
 		if(retVal==null){
