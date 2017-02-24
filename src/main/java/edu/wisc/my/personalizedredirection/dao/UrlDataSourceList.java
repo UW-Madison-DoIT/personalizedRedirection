@@ -1,11 +1,12 @@
 package edu.wisc.my.personalizedredirection.dao;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /*
  * Holder class for metadata contained in src/main/resources/dataSources.json
  */
-public class UrlDataSourceList {
+public class UrlDataSourceList implements Iterable<UrlDataSource> {
     private ArrayList<UrlDataSource> dataSources;
 
     public ArrayList<UrlDataSource> getDataSources() {
@@ -25,5 +26,10 @@ public class UrlDataSourceList {
 
         return null;
     }
+
+	@Override
+	public Iterator<UrlDataSource> iterator() {
+		return getDataSources().iterator();
+	}
 
 }

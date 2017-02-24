@@ -33,24 +33,28 @@ public class RedirectionServiceImpl implements IRedirectionService {
 			logger.trace("Header attribute = " + toFind);
 		}
 
-		// Grab the resource which contains your key/url pairs.
-		String dataSourceLocation = dataSource.getDataSourceLocation();
-		Resource resource = new ClassPathResource(dataSourceLocation);
-		AttributeMapWrapper mapList;
-
-		if (resource.exists()) {
-			IRedirectURLSourceDataParser parser = getParser(dataSource);
-			mapList = parser.parseResource(resource);
-			retVal = mapList.find(toFind);
-		} else {
-		    logger.error("Invalid data location - " + dataSourceLocation + " not found.");
-		}
-
+		AttributeMapWrapper mapList = getMapList(dataSource);
+		retVal = mapList.find(toFind);
 
 		return retVal;
 	}
 
-	
+	protected AttributeMapWrapper getMapList(UrlDataSource dataSource){
+		// Grab the resource which contains your key/url pairs.
+				String dataSourceLocation = dataSource.getDataSourceLocation();
+				Resource resource = new ClassPathResource(dataSourceLocation);
+				AttributeMapWrapper mapList;
+
+				if (resource.exists()) {
+					IRedirectURLSourceDataParser parser = getParser(dataSource);
+					mapList = parser.parseResource(resource);
+				}else{
+					return null;
+				}
+				
+				return mapList;
+		
+	}
 	
 	/*
 	 * This service is currently set up to handle a two-column CSV file. 

@@ -48,7 +48,7 @@ public class PersonalizedRedirectionController {
      */
     @RequestMapping(value = "/{appName}", method = RequestMethod.GET)
     public @ResponseBody void getUrl(HttpServletRequest request,
-            HttpServletResponse response, @PathVariable String appName) throws IOException {
+            HttpServletResponse response, @PathVariable String appName) {
 
         String errorURL = "/404.html";
 
@@ -61,7 +61,7 @@ public class PersonalizedRedirectionController {
             if (dataSource == null) {
                 logger.error("No data source retrieved for " + appName);
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.sendRedirect(errorURL);
+               // response.sendRedirect(errorURL);
             }
 
             String url = "";
@@ -71,22 +71,16 @@ public class PersonalizedRedirectionController {
             if (url == null || url.length() == 0) {
             	logger.error("No url found for app " + appName);
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                response.sendRedirect(errorURL);
+               // response.sendRedirect(errorURL);
             } else {
-            	response.sendRedirect(url);
+            	//response.sendRedirect(url);
             }
-
-        }catch(IOException ioe){
-            logger.error("IO issues happened while trying to generate custom link",
-                    ioe);
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.sendRedirect(errorURL);
         }
         catch (Exception e) {
             logger.error("Issues happened while trying to generate custom link",
                     e);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            response.sendRedirect(errorURL);
+          //  response.sendRedirect(errorURL);
         }
     }
     
