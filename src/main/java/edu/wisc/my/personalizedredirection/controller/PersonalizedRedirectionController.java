@@ -85,10 +85,14 @@ public class PersonalizedRedirectionController {
             hasError = true;
          }
 
-         if(hasError){
-            response.sendRedirect(errorURL);
+         try{
+             if(hasError){
+                 response.sendRedirect(errorURL);
+             }
+         }catch(IOException e){
+             logger.error("IO EXCEPTION THROWN WHILE ATTEMPTING REDIRECT TO ERROR URL");
+             logger.error("App name = " + appName);
          }
-
     }
     
     /**
