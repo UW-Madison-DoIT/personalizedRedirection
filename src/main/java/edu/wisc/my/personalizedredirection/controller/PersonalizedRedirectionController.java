@@ -50,7 +50,6 @@ public class PersonalizedRedirectionController {
     public @ResponseBody void getUrl(HttpServletRequest request,
             HttpServletResponse response, @PathVariable String appName) {
 
-        String errorURL = "/404.html";
 
         logger.trace(
                 "Calling PersonalizedRedirectionController " + appName);
